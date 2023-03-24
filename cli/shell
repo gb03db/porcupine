@@ -1,0 +1,17 @@
+#!/bin/bash
+set -o nounset
+set -o errexit
+
+IMAGENAME=${IMAGENAME:-local/porcupine:0.1}
+CONTAINERNAME="porcupine_shell"
+LOCALPATH=$(dirname $(realpath -s ${0}))
+ROOTPATH=$(dirname "${LOCALPATH}")
+
+docker run --rm -it --name=${CONTAINERNAME} \
+    -e "PYTHONPATH=/app:/app/porcupine" \
+    -v "${ROOTPATH}/porcupine:/app/porcupine:ro" \
+    -v "${ROOTPATH}/venv:/venv" \
+    -v "${ROOTPATH}/var/vim_tmp:/vim_tmp" \
+    --entrypoint /bin/bash \
+    -w /app \
+    ${IMAGENAME}

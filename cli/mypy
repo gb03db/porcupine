@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec docker exec -w /app -i porcupine_shell /venv/bin/mypy "$@"
